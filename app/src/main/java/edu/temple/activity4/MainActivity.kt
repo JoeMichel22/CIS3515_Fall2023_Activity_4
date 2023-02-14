@@ -14,9 +14,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        textSizeSelector= findViewById(R.id.textSizeSelectorRecyclerView)
+        textSizeDisplay= findViewById(R.id.textSizeDisplayTextView)
+
         // Trying to create array of integers that are multiples of 5
         // Verify correctness by examining array values.
         val textSizes = Array(20){(it + 1) * 5}
+
+        for (i in textSizes)
+        Lod.d("Array values", i.toString())
     }
 }
 
