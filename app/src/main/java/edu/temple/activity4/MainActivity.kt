@@ -23,23 +23,31 @@ class MainActivity : AppCompatActivity() {
         // Trying to create array of integers that are multiples of 5
         // Verify correctness by examining array values.
         val textSizes = Array(20){(it + 1) * 5}
+        //val textLambda= {}
 
         /*for (i in textSizes)
         Log.d("Array values", i.toString())*/
 
-        textSizeSelector.adapter= TextSizeAdapter(textSizes)
+        textSizeSelector.adapter= TextSizeAdapter(textSizes){
+            textSizeDisplay.textSize= it
+        }
         textSizeSelector.layoutManager= LinearLayoutManager(this)
     }
 }
 
 
 /* Convert to RecyclerView.Adapter */
-class TextSizeAdapter(_textSizes: Array<Int>): RecyclerView.Adapter<TextSizeAdapter.TextSizeHolder>()
+class TextSizeAdapter(_textSizes: Array<Int>, _callback: (Float) -> Unit): RecyclerView.Adapter<TextSizeAdapter.TextSizeHolder>()
 {
     private val textSizes= _textSizes
-    class TextSizeHolder(view: TextView): RecyclerView.ViewHolder(view)
+    private val callback= _callback
+    inner class TextSizeHolder(view: TextView): RecyclerView.ViewHolder(view)
     {
         val textView= view
+
+        init {
+            textView.setOnClickListener{callback(textSizes[adapterPosition].toFloat())}
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TextSizeHolder {
