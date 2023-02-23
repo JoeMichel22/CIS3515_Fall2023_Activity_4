@@ -1,5 +1,6 @@
 package edu.temple.activity4
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -30,6 +31,9 @@ class MainActivity : AppCompatActivity() {
 
         textSizeSelector.adapter= TextSizeAdapter(textSizes){
             textSizeDisplay.textSize= it
+            val launchIntent= Intent(this, TextActivity::class.java)
+            launchIntent.putExtra("Size", it)
+            startActivity(launchIntent)
         }
         textSizeSelector.layoutManager= LinearLayoutManager(this)
     }
@@ -47,7 +51,9 @@ class TextSizeAdapter(_textSizes: Array<Int>, _callback: (Float) -> Unit): Recyc
 
         init {
             textView.setOnClickListener{callback(textSizes[adapterPosition].toFloat())}
+
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TextSizeHolder {
@@ -61,6 +67,8 @@ class TextSizeAdapter(_textSizes: Array<Int>, _callback: (Float) -> Unit): Recyc
     override fun onBindViewHolder(holder: TextSizeHolder, position: Int) {
         holder.textView.text= textSizes[position].toString()
         holder.textView.textSize= textSizes[position].toFloat()
+
+
     }
 
 }
